@@ -9,6 +9,12 @@ const supabase = createClient(supabaseUrl, supabaseKey); //initialize supabase
 const port = 3000;
 const app = express(); //initialize express
 
+//allow acces from other ports
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  next();
+});
+
 //routes
 app.get("/", async (req, res) => {
   let { data: hotel_chain, error } = await supabase.from("hotel_chain").select("*");
