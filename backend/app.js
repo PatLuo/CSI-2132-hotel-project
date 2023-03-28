@@ -21,6 +21,10 @@ app.use((req, res, next) => {
 
 //queries
 const getChains = "SELECT * FROM hotel_chain";
+// const getChains = "SELECT * FROM hotel_chain";
+// const getChains = "SELECT * FROM hotel_chain";
+// const getChains = "SELECT * FROM hotel_chain";
+
 const addChain = "INSERT INTO hotel_chain VALUES (5, 8)";
 const getRooms = "SELECT * FROM room";
 const clearTable = "DELETE FROM hotel_chain";

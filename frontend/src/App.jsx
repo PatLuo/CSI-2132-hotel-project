@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Table from "./Table";
 import "./App.css";
 
 function App() {
@@ -8,19 +9,14 @@ function App() {
   useEffect(() => {
     axios.get("http://localhost:3000/").then((res) => {
       setData(res.data);
+      console.log(res.data);
     });
   }, []);
 
   return (
     <div className="App">
-      <ul>
-        {data.map((item) => (
-          <li key={item.id}>
-            <p>id:{item.id}</p>
-            <p>hotels:{item.number_of_hotels}</p>
-          </li>
-        ))}
-      </ul>
+      <Table data={data} table={"hotel_chain"} />
+      <button className="btn btn-primary">hello</button>
     </div>
   );
 }
