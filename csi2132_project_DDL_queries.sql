@@ -210,10 +210,19 @@ CREATE TABLE archives(
 CREATE OR REPLACE FUNCTION update_number_of_hotels()
     RETURNS TRIGGER AS $BODY$
 BEGIN
-    UPDATE hotel_chain
-    SET number_of_hotels = (SELECT COUNT(*) FROM Hotel WHERE Hotel.chain_id = NEW.chain_id)
-    WHERE id = NEW.chain_id;
-    RETURN NEW;
+	IF NEW.chain_id IS NOT NULL THEN
+		UPDATE hotel_chain
+		SET number_of_hotels = (SELECT COUNT(*) FROM Hotel WHERE Hotel.chain_id = NEW.chain_id)
+		WHERE id = NEW.chain_id;
+		RETURN NEW;
+	END IF;
+	
+	IF NEW.chain_id IS NULL THEN	-- If a row in Hotel was deleted
+		UPDATE hotel_chain
+		SET number_of_hotels = (SELECT COUNT(*) FROM Hotel WHERE Hotel.chain_id = OLD.chain_id)
+		WHERE id = OLD.chain_id;
+		RETURN OLD;
+	END IF;
 END;
 $BODY$ LANGUAGE plpgsql;
 
@@ -229,10 +238,20 @@ CREATE TRIGGER update_chain_hotels_trigger
 CREATE OR REPLACE FUNCTION update_number_of_rooms()
     RETURNS TRIGGER AS $BODY$
 BEGIN
-    UPDATE Hotel
-    SET number_of_rooms = (SELECT COUNT(*) FROM Room WHERE Room.hotel_id = NEW.hotel_id)
-    WHERE hotel_id = NEW.hotel_id;
-    RETURN NEW;
+	IF NEW.hotel_id IS NOT NULL THEN
+		UPDATE Hotel
+		SET number_of_rooms = (SELECT COUNT(*) FROM Room WHERE Room.hotel_id = NEW.hotel_id)
+		WHERE hotel_id = NEW.hotel_id;
+		RETURN NEW;
+	END IF;
+	
+	IF NEW.hotel_id IS NULL THEN	-- If a row in Room was deleted
+		UPDATE Hotel
+		SET number_of_rooms = (SELECT COUNT(*) FROM Room WHERE Room.hotel_id = OLD.hotel_id)
+		WHERE hotel_id = OLD.hotel_id;
+		RETURN OLD;
+	END IF;
+    
 END;
 $BODY$ LANGUAGE plpgsql;
 

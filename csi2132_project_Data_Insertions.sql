@@ -29,10 +29,6 @@ VALUES (1, 'Regina', 'Saskatchewan', 111, 'Victoria St', 'S5S5S5', 'hotel7@examp
 INSERT INTO hotel (chain_id, city, province, street_number, street_name, postal_code, email, number_of_rooms, categorization)
 VALUES (1, 'Montreal', 'Quebec', 456, 'Saint-Catherine St', 'H2H2H2', 'hotel8@example.com', 120, 5);
 
-UPDATE Hotel_Chain SET id=2 WHERE id=8;
-SELECT * FROM Hotel_CHain order by id;
-SELECT * FROM Hotel WHERE chain_id!=1;
-
 INSERT INTO hotel (chain_id, city, province, street_number, street_name, postal_code, email, number_of_rooms, categorization)
 VALUES (2, 'Calgary', 'Alberta', 222, '1st St', 'T1T1T1', 'hotel9@example.com', 80, 2);
 INSERT INTO hotel (chain_id, city, province, street_number, street_name, postal_code, email, number_of_rooms, categorization)
