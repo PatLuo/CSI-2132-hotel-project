@@ -5,13 +5,14 @@ function CustomerTable() {
   const [data, setData] = useState([]);
   const [editableRow, setEditableRow] = useState();
   const [updatedRowData, setupdatedRowData] = useState();
-
+  const [showNewRow, setShowNewRow] = useState(false);
+  const [newRowData, setnewRowData] = useState({});
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = () => {
-    axios.get("http://localhost:3000/getCustomer").then((res) => {
+    axios.get("http://localhost:3000/customer").then((res) => {
       setData(res.data);
       setData((data) => data.map((row) => ({ ...row, date_of_registration: row["date_of_registration"].substring(0, 10) }))); //remove time from date format
     });
@@ -36,14 +37,43 @@ function CustomerTable() {
   };
 
   const handleSave = (originalPK) => {
-    axios.put(`http://localhost:3000/updateCustomer`, { newData: updatedRowData, originalPK: originalPK }).then((res) => {
+    axios.put(`http://localhost:3000/customer`, { newData: updatedRowData, originalPK: originalPK }).then((res) => {
       if (res.data == "success") {
         setEditableRow(null);
         setupdatedRowData(null);
         fetchData();
       } else {
-        let errorCode = res.data;
-        alert("Error code " + errorCode);
+        alert("Error code " + res.data);
+      }
+    });
+  };
+
+  const handleNewRowChange = (event, columnName) => {
+    const newValue = event.target.value;
+    setnewRowData((newRowData) => ({
+      ...newRowData,
+      [columnName]: newValue,
+    }));
+  };
+
+  const handleAddNewRow = () => {
+    axios.post(`http://localhost:3000/customer`, newRowData).then((res) => {
+      if (res.data == "success") {
+        setShowNewRow(false);
+        setnewRowData({});
+        fetchData();
+      } else {
+        alert("Error code " + res.data);
+      }
+    });
+  };
+
+  const handleDelete = (ssn) => {
+    axios.delete(`http://localhost:3000/customer/${ssn}`).then((res) => {
+      if (res.data == "success") {
+        fetchData();
+      } else {
+        alert("Error code " + res.data);
       }
     });
   };
@@ -67,6 +97,75 @@ function CustomerTable() {
           </tr>
         </thead>
         <tbody>
+          {showNewRow && (
+            <tr>
+              <th>
+                <input type="text" className="form-control" value={newRowData.ssn} onChange={(event) => handleNewRowChange(event, "ssn")} />
+              </th>
+              <th>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={newRowData.first_name}
+                  onChange={(event) => handleNewRowChange(event, "first_name")}
+                />
+              </th>
+              <th>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={newRowData.last_name}
+                  onChange={(event) => handleNewRowChange(event, "last_name")}
+                />
+              </th>
+              <th>
+                <input type="text" className="form-control" value={newRowData.city} onChange={(event) => handleNewRowChange(event, "city")} />
+              </th>
+              <th>
+                <input type="text" className="form-control" value={newRowData.province} onChange={(event) => handleNewRowChange(event, "province")} />
+              </th>
+              <th>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={newRowData.street_number}
+                  onChange={(event) => handleNewRowChange(event, "street_number")}
+                />
+              </th>
+              <th>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={newRowData.street_name}
+                  onChange={(event) => handleNewRowChange(event, "street_name")}
+                />
+              </th>
+              <th>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={newRowData.postal_code}
+                  onChange={(event) => handleNewRowChange(event, "postal_code")}
+                />
+              </th>
+              <th>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={newRowData.date_of_registration}
+                  onChange={(event) => handleNewRowChange(event, "date_of_registration")}
+                />
+              </th>
+              <th>
+                <button className="btn btn-success" onClick={() => handleAddNewRow()}>
+                  Add
+                </button>
+                <button className="btn btn-danger" onClick={() => setShowNewRow(false)}>
+                  Cancel
+                </button>
+              </th>
+            </tr>
+          )}
           {data.map((row, rowIndex) => {
             const { ssn, first_name, last_name, city, province, street_number, street_name, postal_code, date_of_registration } = row;
             return (
@@ -85,6 +184,11 @@ function CustomerTable() {
                     <th>
                       <button className="btn btn-primary" onClick={() => toggleEdit(rowIndex)}>
                         Edit
+                      </button>
+                    </th>
+                    <th>
+                      <button className="btn btn-danger" onClick={() => handleDelete(ssn)}>
+                        Delete
                       </button>
                     </th>
                   </>
@@ -161,6 +265,8 @@ function CustomerTable() {
                       <button className="btn btn-success" onClick={() => handleSave(data[rowIndex]["ssn"])}>
                         Save
                       </button>
+                    </th>
+                    <th>
                       <button className="btn btn-danger" onClick={() => toggleEdit(rowIndex)}>
                         Cancel
                       </button>
@@ -172,6 +278,11 @@ function CustomerTable() {
           })}
         </tbody>
       </table>
+      {!showNewRow && (
+        <button className="btn btn-primary" onClick={() => setShowNewRow(!showNewRow)}>
+          Add New Customer
+        </button>
+      )}
     </>
   );
 }
