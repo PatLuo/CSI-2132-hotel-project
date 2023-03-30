@@ -64,11 +64,12 @@ app.put("/updateCustomer", async (req, res) => {
 
   client.query(query, (err, result) => {
     if (err) {
-      return console.error("error running query", err);
+      res.send(err.code);
+    } else {
+      console.log("successfully updated customer");
+      res.send("success");
     }
-    res.json(result.rows);
   });
-  res.send("updated");
 });
 
 //starts the server
