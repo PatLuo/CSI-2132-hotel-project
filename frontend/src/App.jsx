@@ -15,7 +15,7 @@ function App() {
 
   return (
     <div className="App">
-      <Table data={data} table={"hotel_chain"} />
+      <Table data={data} table={"hotel_chain"} updateData={setData} />
       <button className="btn btn-primary">hello</button>
     </div>
   );

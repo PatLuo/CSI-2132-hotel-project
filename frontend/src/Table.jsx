@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Table(props) {
   const [editableRow, setEditableRow] = useState();
-  const [updatedData, setUpdatedData] = useState({});
+  const [updatedRowData, setupdatedRowData] = useState();
 
   const data = props.data;
   const headers = data && data.length > 0 ? Object.keys(data[0]) : [];
@@ -10,29 +11,28 @@ function Table(props) {
   const toggleEdit = (rowIndex) => {
     if (editableRow === rowIndex) {
       setEditableRow(null);
+      setupdatedRowData(null);
+      set;
     } else {
       setEditableRow(rowIndex);
+      setupdatedRowData(data[rowIndex]);
     }
   };
 
-  const handleInputChange = (event, rowIndex, columnName) => {
+  const handleInputChange = (event, columnName) => {
     const newValue = event.target.value;
-    setUpdatedData({
-      ...updatedData,
-      [rowIndex]: {
-        ...updatedData[rowIndex],
-        [columnName]: newValue,
-      },
-    });
+    setupdatedRowData((updatedRowData) => ({
+      ...updatedRowData,
+      [columnName]: newValue,
+    }));
   };
 
-  const handleSave = (rowIndex) => {
-    const newData = [...data];
-    const updatedRow = { ...newData[rowIndex], ...updatedData[rowIndex] };
-    newData[rowIndex] = updatedRow;
-    props.onSave(newData);
-    setUpdatedData({});
-    setEditableRow(null);
+  const handleSave = () => {
+    axios.put(`http://localhost:3000`, updatedRowData).then((res) => {
+      console.log(res.data);
+      setEditableRow(null);
+      setupdatedRowData(null);
+    });
   };
 
   return (
@@ -48,21 +48,21 @@ function Table(props) {
       <tbody>
         {data.map((item, rowIndex) => {
           const isEditable = editableRow == rowIndex;
-          const rowValues = updatedData[rowIndex] || item;
+          const rowValues = item;
           return (
             <tr key={rowIndex}>
               {headers.map((header, columnIndex) => {
                 const value = rowValues[header];
                 return (
                   <td key={columnIndex}>
-                    {isEditable ? <input type="text" value={value} onChange={(event) => handleInputChange(event, rowIndex, header)} /> : value}
+                    {isEditable ? <input type="text" value={updatedRowData[header]} onChange={(event) => handleInputChange(event, header)} /> : value}
                   </td>
                 );
               })}
               <td>
                 {isEditable ? (
                   <>
-                    <button className="btn btn-success" onClick={() => handleSave(rowIndex)}>
+                    <button className="btn btn-success" onClick={() => handleSave()}>
                       Save
                     </button>
                     <button className="btn btn-danger" onClick={() => toggleEdit(rowIndex)}>
