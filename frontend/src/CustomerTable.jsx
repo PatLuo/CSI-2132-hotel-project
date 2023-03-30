@@ -7,10 +7,15 @@ function CustomerTable() {
   const [updatedRowData, setupdatedRowData] = useState();
 
   useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
     axios.get("http://localhost:3000/getCustomer").then((res) => {
       setData(res.data);
+      setData((data) => data.map((row) => ({ ...row, date_of_registration: row["date_of_registration"].substring(0, 10) }))); //remove time from date format
     });
-  }, []);
+  };
 
   const toggleEdit = (rowIndex) => {
     if (editableRow === rowIndex) {
@@ -32,8 +37,14 @@ function CustomerTable() {
 
   const handleSave = (originalPK) => {
     axios.put(`http://localhost:3000/updateCustomer`, { newData: updatedRowData, originalPK: originalPK }).then((res) => {
-      setEditableRow(null);
-      setupdatedRowData(null);
+      if (res.data == "success") {
+        setEditableRow(null);
+        setupdatedRowData(null);
+        fetchData();
+      } else {
+        let errorCode = res.data;
+        alert("Error code " + errorCode);
+      }
     });
   };
 
