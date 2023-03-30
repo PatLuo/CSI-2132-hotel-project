@@ -26,9 +26,12 @@ app.use(express.json()); //parse json
 
 //queries
 const getChains = "SELECT * FROM hotel_chain";
+const getCustomers = "SELECT * FROM customer";
+const getEmployees = "SELECT * FROM empoployee";
+const getHotels = "SELECT * FROM hotel";
+const getRooms = "SELECT * FROM room";
 
 const addChain = "INSERT INTO hotel_chain VALUES (5, 8)";
-const getRooms = "SELECT * FROM room";
 const clearTable = "DELETE FROM hotel_chain";
 const updateTable = "UPDATE hotel_chain SET hotel_id = $`1` WHERE hotel_id = 1";
 
@@ -42,9 +45,23 @@ app.get("/", async (req, res) => {
   });
 });
 
-app.put("/", async (req, res) => {
-  const data = req.body;
-  const query = `UPDATE hotel_chain SET number_of_hotels = ${data.number_of_hotels} WHERE id = ${data.id}`;
+app.get("/getCustomer", async (req, res) => {
+  client.query(getCustomers, (err, result) => {
+    if (err) {
+      return console.error("error running query", err);
+    }
+    res.json(result.rows);
+  });
+});
+
+app.put("/updateCustomer", async (req, res) => {
+  const { newData, originalPK } = req.body;
+  const { ssn, first_name, last_name, city, province, street_number, street_name, postal_code, date_of_registration } = newData;
+  const query = `
+  UPDATE customer
+  SET ssn = '${ssn}', first_name = '${first_name}', last_name = '${last_name}', city = '${city}', province = '${province}', street_number = ${street_number}, street_name = '${street_name}', postal_code = '${postal_code}', date_of_registration = '${date_of_registration}'
+  WHERE ssn = ${originalPK}`;
+
   client.query(query, (err, result) => {
     if (err) {
       return console.error("error running query", err);
@@ -53,6 +70,7 @@ app.put("/", async (req, res) => {
   });
   res.send("updated");
 });
+
 //starts the server
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
