@@ -100,8 +100,104 @@ VALUES (5, 'Vancouver', 'BC', 890, 'Granville Street', 'V6Z1L2', 'hotel42@exampl
 -- ----------------------------
 -- Records of rooms
 -- ----------------------------
+-- Insertions for hotels of the hotel_chain with id=1
 INSERT INTO room (hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (1, 1, 'mountain', 150.0, 2, 1);
 INSERT INTO room (hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (1, 1, 'sea', 200.0, 3, 0);
 INSERT INTO room (hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (1, 1, 'sea', 100.0, 1, 2);
 INSERT INTO room (hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (1, 1, 'mountain', 180.0, 4, 1);
 INSERT INTO room (hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (1, 1, 'mountain', 120.0, 5, 0);
+
+INSERT INTO room (hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (2, 1, 'sea', 100.0, 1, 2);
+INSERT INTO room (hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (2, 1, 'mountain', 150.0, 2, 1);
+INSERT INTO room (hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (2, 1, 'sea', 200.0, 3, 0);
+INSERT INTO room (hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (2, 1, 'mountain', 250.0, 4, 2);
+INSERT INTO room (hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (2, 1, 'sea', 300.0, 5, 1);
+
+INSERT INTO room (hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (3, 1, 'mountain', 130.0, 2, 0);
+INSERT INTO room (hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (3, 1, 'sea', 170.0, 3, 1);
+INSERT INTO room (hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (3, 1, 'mountain', 210.0, 4, 0);
+INSERT INTO room (hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (3, 1, 'sea', 250.0, 5, 2);
+INSERT INTO room (hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (3, 1, 'mountain', 290.0, 1, 1);
+
+INSERT INTO room (hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (4, 1, 'sea', 90.0, 3, 1);
+INSERT INTO room (hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (4, 1, 'mountain', 120.0, 4, 0);
+INSERT INTO room (hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (4, 1, 'sea', 150.0, 1, 2);
+INSERT INTO room (hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (4, 1, 'mountain', 180.0, 2, 1);
+INSERT INTO room (hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (4, 1, 'sea', 210.0, 5, 0);
+
+INSERT INTO room (hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (5, 1, 'sea', 160.0, 4, 2);
+INSERT INTO room (hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (5, 1, 'sea', 200.0, 3, 0);
+INSERT INTO room (hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (5, 1, 'sea', 100.0, 1, 2);
+INSERT INTO room (hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (5, 1, 'mountain', 180.0, 2, 1);
+INSERT INTO room (hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (5, 1, 'mountain', 120.0, 5, 0);
+
+INSERT INTO room(hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (6, 1, 'sea', 400.0, 5, 2);
+INSERT INTO room(hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (6, 1, 'mountain', 150.0, 1, 0);
+INSERT INTO room(hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (6, 1, 'mountain', 250.0, 3, 2);
+INSERT INTO room(hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (6, 1, 'sea', 350.0, 4, 1);
+INSERT INTO room(hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (6, 1, 'sea', 200.0, 2, 0);
+
+INSERT INTO room(hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (7, 1, 'mountain', 150.0, 1, 0);
+INSERT INTO room(hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (7, 1, 'sea', 250.0, 3, 1);
+INSERT INTO room(hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (7, 1, 'mountain', 200.0, 2, 1);
+INSERT INTO room(hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (7, 1, 'sea', 350.0, 5, 2);
+INSERT INTO room(hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (7, 1, 'mountain', 300.0, 4, 2);
+
+INSERT INTO room(hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (8, 1, 'mountain', 200.0, 2, 1);
+INSERT INTO room(hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (8, 1, 'sea', 250.0, 3, 2);
+INSERT INTO room(hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (8, 1, 'sea', 350.0, 4, 3);
+INSERT INTO room(hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (8, 1, 'mountain', 150.0, 1, 0);
+INSERT INTO room(hotel_id, chain_id, room_view, price, capacity, expandability) VALUES (8, 1, 'mountain', 250.0, 3, 2);
+
+-- Insertions for hotels of the hotel_chain with id=2
+INSERT INTO room (hotel_id, chain_id, renting_status, room_view, price, capacity, expandability)
+VALUES (9, 2, 'open', 'mountain', 100.0, 1, 0),
+       (9, 2, 'open', 'sea', 120.0, 2, 1),
+       (9, 2, 'open', 'mountain', 150.0, 3, 2),
+       (9, 2, 'open', 'sea', 180.0, 4, 3),
+       (9, 2, 'open', 'mountain', 200.0, 5, 3);
+INSERT INTO room (hotel_id, chain_id, renting_status, room_view, price, capacity, expandability)
+VALUES (10, 2, 'open', 'sea', 90.0, 1, 0),
+       (10, 2, 'open', 'mountain', 120.0, 2, 1),
+       (10, 2, 'open', 'sea', 150.0, 3, 1),
+       (10, 2, 'open', 'mountain', 180.0, 4, 2),
+       (10, 2, 'open', 'sea', 210.0, 5, 3);
+INSERT INTO room (hotel_id, chain_id, renting_status, room_view, price, capacity, expandability)
+VALUES (11, 2, 'open', 'mountain', 120.0, 1, 0),
+       (11, 2, 'open', 'sea', 150.0, 2, 0),
+       (11, 2, 'open', 'mountain', 180.0, 3, 1),
+       (11, 2, 'open', 'sea', 210.0, 4, 2),
+       (11, 2, 'open', 'mountain', 240.0, 5, 3);
+INSERT INTO room (hotel_id, chain_id, renting_status, room_view, price, capacity, expandability)
+VALUES (12, 2, 'open', 'sea', 150.0, 1, 0),
+       (12, 2, 'open', 'mountain', 180.0, 2, 0),
+       (12, 2, 'open', 'sea', 210.0, 3, 1),
+       (12, 2, 'open', 'mountain', 240.0, 4, 2),
+       (12, 2, 'open', 'sea', 270.0, 5, 3);
+INSERT INTO room (hotel_id, chain_id, renting_status, room_view, price, capacity, expandability) 
+VALUES (13, 2, 'open', 'sea', 150.0, 1, 1),
+       (13, 2, 'open', 'mountain', 180.0, 2, 0),
+       (13, 2, 'open', 'sea', 200.0, 3, 1),
+       (13, 2, 'open', 'mountain', 220.0, 4, 2),
+       (13, 2, 'open', 'sea', 300.0, 5, 3);
+
+INSERT INTO room (hotel_id, chain_id, renting_status, room_view, price, capacity, expandability) 
+VALUES (14, 2, 'open', 'sea', 100.0, 1, 1),
+        (14, 2, 'open', 'mountain', 120.0, 2, 0),
+        (14, 2, 'open', 'sea', 130.0, 3, 1),
+        (14, 2, 'open', 'mountain', 150.0, 4, 2),
+        (14, 2, 'open', 'sea', 200.0, 5, 3);
+
+INSERT INTO room (hotel_id, chain_id, renting_status, room_view, price, capacity, expandability) 
+VALUES (15, 2, 'open', 'sea', 200.0, 1, 1),
+        (15, 2, 'open', 'mountain', 250.0, 2, 0),
+        (15, 2, 'open', 'sea', 300.0, 3, 1),
+        (15, 2, 'open', 'mountain', 350.0, 4, 2),
+        (15, 2, 'open', 'sea', 400.0, 5, 3);
+
+INSERT INTO room (hotel_id, chain_id, renting_status, room_view, price, capacity, expandability) 
+VALUES (16, 2, 'open', 'sea', 100.0, 1, 1),
+        (16, 2, 'open', 'mountain', 120.0, 2, 0),
+        (16, 2, 'open', 'sea', 130.0, 3, 1),
+        (16, 2, 'open', 'mountain', 150.0, 4, 2),
+        (16, 2, 'open', 'sea', 200.0, 5, 3);
