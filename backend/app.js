@@ -45,7 +45,7 @@ app.get("/", async (req, res) => {
   });
 });
 
-app.get("/getCustomer", async (req, res) => {
+app.get("/customer", async (req, res) => {
   client.query(getCustomers, (err, result) => {
     if (err) {
       return console.error("error running query", err);
@@ -54,19 +54,47 @@ app.get("/getCustomer", async (req, res) => {
   });
 });
 
-app.put("/updateCustomer", async (req, res) => {
+app.put("/customer", async (req, res) => {
   const { newData, originalPK } = req.body;
   const { ssn, first_name, last_name, city, province, street_number, street_name, postal_code, date_of_registration } = newData;
   const query = `
   UPDATE customer
   SET ssn = '${ssn}', first_name = '${first_name}', last_name = '${last_name}', city = '${city}', province = '${province}', street_number = ${street_number}, street_name = '${street_name}', postal_code = '${postal_code}', date_of_registration = '${date_of_registration}'
   WHERE ssn = ${originalPK}`;
-
   client.query(query, (err, result) => {
     if (err) {
+      console.log(err);
       res.send(err.code);
     } else {
-      console.log("successfully updated customer");
+      res.send("success");
+    }
+  });
+});
+
+app.post("/customer", async (req, res) => {
+  const { ssn, first_name, last_name, city, province, street_number, street_name, postal_code, date_of_registration } = req.body;
+  const query = `
+  INSERT INTO customer (ssn, first_name, last_name, city, province, street_number, street_name, postal_code, date_of_registration)
+  VALUES ('${ssn}', '${first_name}', '${last_name}', '${city}', '${province}', ${street_number}, '${street_name}', '${postal_code}', '${date_of_registration}')`;
+  client.query(query, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.send(err.code);
+    } else {
+      res.send("success");
+    }
+  });
+});
+
+app.delete("/customer/:ssn", async (req, res) => {
+  const query = `
+  DELETE FROM customer
+  WHERE ssn = ${req.params.ssn}`;
+  client.query(query, (err, result) => {
+    if (err) {
+      console.log(err);
+      res.send(err.code);
+    } else {
       res.send("success");
     }
   });
