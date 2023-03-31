@@ -165,6 +165,8 @@ function CustomerTable() {
                 <button className="btn btn-success" onClick={() => handleAddNewRow()}>
                   Add
                 </button>
+              </th>
+              <th>
                 <button className="btn btn-danger" onClick={() => setShowNewRow(false)}>
                   Cancel
                 </button>

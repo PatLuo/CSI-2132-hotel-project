@@ -3,7 +3,7 @@ const client = require("../db"); //import postgres client
 
 const router = express.Router();
 
-const getHotel = "SELECT * FROM hotel";
+const getHotel = "SELECT * FROM hotel ORDER BY hotel_id ";
 
 router.get("/", async (req, res) => {
   client.query(getHotel, (err, result) => {

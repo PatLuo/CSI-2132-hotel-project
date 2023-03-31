@@ -3,7 +3,7 @@ const router = express.Router();
 
 const client = require("../db");
 
-const getRoom = "SELECT * FROM room";
+const getRoom = "SELECT * FROM room ORDER BY room_id";
 
 router.get("/", async (req, res) => {
   client.query(getRoom, (err, result) => {
