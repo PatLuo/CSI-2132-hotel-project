@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-function CustomerTable() {
+function RoomTable() {
   const [data, setData] = useState([]);
   const [editableRow, setEditableRow] = useState();
   const [updatedRowData, setupdatedRowData] = useState();
   const [showNewRow, setShowNewRow] = useState(false);
   const [newRowData, setnewRowData] = useState({});
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -287,4 +288,4 @@ function CustomerTable() {
   );
 }
 
-export default CustomerTable;
+export default RoomTable;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-function CustomerTable() {
+function EmployeeTable() {
   const [data, setData] = useState([]);
   const [editableRow, setEditableRow] = useState();
   const [updatedRowData, setupdatedRowData] = useState();
@@ -287,4 +287,4 @@ function CustomerTable() {
   );
 }
 
-export default CustomerTable;
+export default EmployeeTable;

@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-function CustomerTable() {
+function HotelTable() {
   const [data, setData] = useState([]);
   const [editableRow, setEditableRow] = useState();
   const [updatedRowData, setupdatedRowData] = useState();
   const [showNewRow, setShowNewRow] = useState(false);
   const [newRowData, setnewRowData] = useState({});
+
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = () => {
-    axios.get("http://localhost:3000/customer").then((res) => {
+    axios.get("http://localhost:3000/hotel").then((res) => {
       setData(res.data);
-      setData((data) => data.map((row) => ({ ...row, date_of_registration: row["date_of_registration"].substring(0, 10) }))); //remove time from date format
     });
   };
 
@@ -37,7 +37,7 @@ function CustomerTable() {
   };
 
   const handleSave = (originalPK) => {
-    axios.put(`http://localhost:3000/customer`, { newData: updatedRowData, originalPK: originalPK }).then((res) => {
+    axios.put(`http://localhost:3000/hotel`, { newData: updatedRowData, originalPK: originalPK }).then((res) => {
       if (res.data == "success") {
         setEditableRow(null);
         setupdatedRowData(null);
@@ -57,7 +57,7 @@ function CustomerTable() {
   };
 
   const handleAddNewRow = () => {
-    axios.post(`http://localhost:3000/customer`, newRowData).then((res) => {
+    axios.post(`http://localhost:3000/hotel`, newRowData).then((res) => {
       if (res.data == "success") {
         setShowNewRow(false);
         setnewRowData({});
@@ -69,7 +69,7 @@ function CustomerTable() {
   };
 
   const handleDelete = (ssn) => {
-    axios.delete(`http://localhost:3000/customer/${ssn}`).then((res) => {
+    axios.delete(`http://localhost:3000/hotel/${ssn}`).then((res) => {
       if (res.data == "success") {
         fetchData();
       } else {
@@ -80,43 +80,30 @@ function CustomerTable() {
 
   return (
     <>
-      <h1>Customer Table</h1>
+      <h1>hotel Table</h1>
       <table className="table">
         <thead>
           <tr>
-            <th>ssn</th>
-            <th>first_name</th>
-            <th>last_name</th>
+            <th>chain_id</th>
+            <th>hotel_id</th>
             <th>city</th>
             <th>province</th>
             <th>street_number</th>
             <th>street_name</th>
             <th>postal_code</th>
-            <th>date_of_registration</th>
-            <th></th>
+            <th>email</th>
+            <th>number_of_rooms</th>
+            <th>categorization</th>
           </tr>
         </thead>
         <tbody>
           {showNewRow && (
             <tr>
               <th>
-                <input type="text" className="form-control" value={newRowData.ssn} onChange={(event) => handleNewRowChange(event, "ssn")} />
+                <input type="text" className="form-control" value={newRowData.chain_id} onChange={(event) => handleNewRowChange(event, "chain_id")} />
               </th>
               <th>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={newRowData.first_name}
-                  onChange={(event) => handleNewRowChange(event, "first_name")}
-                />
-              </th>
-              <th>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={newRowData.last_name}
-                  onChange={(event) => handleNewRowChange(event, "last_name")}
-                />
+                <input type="text" className="form-control" value={newRowData.hotel_id} onChange={(event) => handleNewRowChange(event, "hotel_id")} />
               </th>
               <th>
                 <input type="text" className="form-control" value={newRowData.city} onChange={(event) => handleNewRowChange(event, "city")} />
@@ -149,11 +136,22 @@ function CustomerTable() {
                 />
               </th>
               <th>
+                <input type="text" className="form-control" value={newRowData.email} onChange={(event) => handleNewRowChange(event, "email")} />
+              </th>
+              <th>
                 <input
                   type="text"
                   className="form-control"
-                  value={newRowData.date_of_registration}
-                  onChange={(event) => handleNewRowChange(event, "date_of_registration")}
+                  value={newRowData.number_of_rooms}
+                  onChange={(event) => handleNewRowChange(event, "number_of_rooms")}
+                />
+              </th>
+              <th>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={newRowData.categorization}
+                  onChange={(event) => handleNewRowChange(event, "categorization")}
                 />
               </th>
               <th>
@@ -167,27 +165,28 @@ function CustomerTable() {
             </tr>
           )}
           {data.map((row, rowIndex) => {
-            const { ssn, first_name, last_name, city, province, street_number, street_name, postal_code, date_of_registration } = row;
+            const { chain_id, hotel_id, city, province, street_number, street_name, postal_code, email, number_of_rooms, categorization } = row;
             return (
               <tr key={rowIndex}>
                 {editableRow != rowIndex ? (
                   <>
-                    <th>{ssn}</th>
-                    <th>{first_name}</th>
-                    <th>{last_name}</th>
+                    <th>{chain_id}</th>
+                    <th>{hotel_id}</th>
                     <th>{city}</th>
                     <th>{province}</th>
                     <th>{street_number}</th>
                     <th>{street_name}</th>
                     <th>{postal_code}</th>
-                    <th>{date_of_registration}</th>
+                    <th>{email}</th>
+                    <th>{number_of_rooms}</th>
+                    <th>{categorization}</th>
                     <th>
                       <button className="btn btn-primary" onClick={() => toggleEdit(rowIndex)}>
                         Edit
                       </button>
                     </th>
                     <th>
-                      <button className="btn btn-danger" onClick={() => handleDelete(ssn)}>
+                      <button className="btn btn-danger" onClick={() => handleDelete([chain_id, hotel_id])}>
                         Delete
                       </button>
                     </th>
@@ -195,22 +194,19 @@ function CustomerTable() {
                 ) : (
                   <>
                     <th>
-                      <input type="text" className="form-control" value={updatedRowData.ssn} onChange={(event) => handleInputChange(event, "ssn")} />
-                    </th>
-                    <th>
                       <input
                         type="text"
                         className="form-control"
-                        value={updatedRowData.first_name}
-                        onChange={(event) => handleInputChange(event, "first_name")}
+                        value={updatedRowData.chain_id}
+                        onChange={(event) => handleInputChange(event, "chain_id")}
                       />
                     </th>
                     <th>
                       <input
                         type="text"
                         className="form-control"
-                        value={updatedRowData.last_name}
-                        onChange={(event) => handleInputChange(event, "last_name")}
+                        value={updatedRowData.hotel_id}
+                        onChange={(event) => handleInputChange(event, "hotel_id")}
                       />
                     </th>
                     <th>
@@ -257,12 +253,28 @@ function CustomerTable() {
                       <input
                         type="text"
                         className="form-control"
-                        value={updatedRowData.date_of_registration}
-                        onChange={(event) => handleInputChange(event, "date_of_registration")}
+                        value={updatedRowData.email}
+                        onChange={(event) => handleInputChange(event, "email")}
                       />
                     </th>
                     <th>
-                      <button className="btn btn-success" onClick={() => handleSave(data[rowIndex]["ssn"])}>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={updatedRowData.number_of_rooms}
+                        onChange={(event) => handleInputChange(event, "number_of_rooms")}
+                      />
+                    </th>
+                    <th>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={updatedRowData.categorization}
+                        onChange={(event) => handleInputChange(event, "categorization")}
+                      />
+                    </th>
+                    <th>
+                      <button className="btn btn-success" onClick={() => handleSave([data[rowIndex]["chain_id"], data[rowIndex]["hotel_id"]])}>
                         Save
                       </button>
                     </th>
@@ -280,11 +292,11 @@ function CustomerTable() {
       </table>
       {!showNewRow && (
         <button className="btn btn-primary" onClick={() => setShowNewRow(!showNewRow)}>
-          Add New Customer
+          Add New hotel
         </button>
       )}
     </>
   );
 }
 
-export default CustomerTable;
+export default HotelTable;
