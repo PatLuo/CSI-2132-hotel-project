@@ -9,6 +9,7 @@ import RoomTable from "./RoomTable";
 import RoomsPerAreaTable from "./RoomsPerAreaTable";
 import CapacityPerHotel from "./CapacityPerHotelTable";
 import RoomSearch from "./RoomSearch";
+import BookingsTable from "./BookingsTable";
 import "./App.css";
 
 function App() {
@@ -21,20 +22,17 @@ function App() {
             <RoomSearch />
           </Route>
           <Route path="/views">
-            <div className="row">
-              <div className="col-md-6">
-                <RoomsPerAreaTable />
-              </div>
-              <div className="col-md-6">
-                <CapacityPerHotel />
-              </div>
-            </div>
+            <RoomsPerAreaTable />
+            <CapacityPerHotel />
           </Route>
           <Route path="/tables">
             <CustomerTable />
             <EmployeeTable />
             <HotelTable />
             <RoomTable />
+          </Route>
+          <Route path="/employees">
+            <BookingsTable />
           </Route>
         </Switch>
       </div>
