@@ -34,8 +34,8 @@ router.put("/", async (req, res) => {
 router.post("/", async (req, res) => {
   const { chain_id, hotel_id, city, province, street_number, street_name, postal_code, email, number_of_rooms, categorization } = req.body;
   const query = `
-    INSERT INTO hotel (chain_id, hotel_id, city, province, street_number, street_name, postal_code, email, number_of_rooms, categorization)
-    VALUES (${chain_id}, ${hotel_id}, '${city}', '${province}', ${street_number}, '${street_name}', '${postal_code}', '${email}', ${number_of_rooms}, ${categorization})`;
+    INSERT INTO hotel (chain_id,  city, province, street_number, street_name, postal_code, email, number_of_rooms, categorization)
+    VALUES (${chain_id},'${city}', '${province}', ${street_number}, '${street_name}', '${postal_code}', '${email}', ${number_of_rooms}, ${categorization})`;
   client.query(query, (err, result) => {
     if (err) {
       console.log(err);

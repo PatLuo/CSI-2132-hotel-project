@@ -90,8 +90,8 @@ function HotelTable() {
       <table className="table">
         <thead>
           <tr>
-            <th>chain_id</th>
             <th>hotel_id</th>
+            <th>chain_id</th>
             <th>city</th>
             <th>province</th>
             <th>street_number</th>
@@ -105,11 +105,9 @@ function HotelTable() {
         <tbody>
           {showNewRow && (
             <tr>
+              <th></th>
               <th>
                 <input type="text" className="form-control" value={newRowData.chain_id} onChange={(event) => handleNewRowChange(event, "chain_id")} />
-              </th>
-              <th>
-                <input type="text" className="form-control" value={newRowData.hotel_id} onChange={(event) => handleNewRowChange(event, "hotel_id")} />
               </th>
               <th>
                 <input type="text" className="form-control" value={newRowData.city} onChange={(event) => handleNewRowChange(event, "city")} />
@@ -178,8 +176,8 @@ function HotelTable() {
               <tr key={rowIndex}>
                 {editableRow != rowIndex ? (
                   <>
-                    <th>{chain_id}</th>
                     <th>{hotel_id}</th>
+                    <th>{chain_id}</th>
                     <th>{city}</th>
                     <th>{province}</th>
                     <th>{street_number}</th>
@@ -201,6 +199,7 @@ function HotelTable() {
                   </>
                 ) : (
                   <>
+                    <th></th>
                     <th>
                       <input
                         type="text"
@@ -209,14 +208,7 @@ function HotelTable() {
                         onChange={(event) => handleInputChange(event, "chain_id")}
                       />
                     </th>
-                    <th>
-                      <input
-                        type="text"
-                        className="form-control"
-                        value={updatedRowData.hotel_id}
-                        onChange={(event) => handleInputChange(event, "hotel_id")}
-                      />
-                    </th>
+
                     <th>
                       <input
                         type="text"
