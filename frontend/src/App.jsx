@@ -1,14 +1,18 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Table from "./Table";
 import CustomerTable from "./CustomerTable";
+import EmployeeTable from "./EmployeeTable";
+import HotelTable from "./HotelTable";
+import RoomTable from "./RoomTable";
 import "./App.css";
 
 function App() {
   return (
     <div className="App">
-      <CustomerTable />
-      <button className="btn btn-primary">hello</button>
+      <CustomerTable className="w-100" />
+      <EmployeeTable />
+      <HotelTable />
+      <RoomTable />
     </div>
   );
 }
