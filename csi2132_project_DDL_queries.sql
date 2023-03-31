@@ -144,7 +144,7 @@ DROP TYPE IF EXISTS paymentTypeEnum CASCADE;
 CREATE TYPE paymentTypeEnum AS ENUM ('credit', 'debit', 'cash');
 
 DROP TYPE IF EXISTS reservationStatusEnum CASCADE;
-CREATE TYPE reservationStatusEnum AS ENUM ('booking, renting');
+CREATE TYPE reservationStatusEnum AS ENUM ('booking', 'renting');
 
 DROP TABLE IF EXISTS booking_renting;
 CREATE TABLE booking_renting (
@@ -261,4 +261,70 @@ CREATE TRIGGER update_hotel_rooms_trigger
     FOR EACH ROW
     EXECUTE FUNCTION update_number_of_rooms();
 
+
+-- ------------------------------------------------
+-- Trigger for populating the Archives table with history bookings/rentings (excluding payment info)
+-- ------------------------------------------------
+CREATE OR REPLACE FUNCTION populate_archives()
+    RETURNS TRIGGER AS $BODY$
+BEGIN
+	INSERT INTO archives(cust_ssn, room_id, hotel_id, chain_id, start_date, end_date)
+		VALUES (NEW.cust_ssn, NEW.room_id, NEW.hotel_id, NEW.chain_id, NEW.start_date, NEW.end_date);
+	RETURN NEW;
+END;
+$BODY$ LANGUAGE plpgsql;
+
+CREATE TRIGGER populate_archives_trigger
+    AFTER INSERT
+    ON booking_renting
+    FOR EACH ROW
+    EXECUTE FUNCTION populate_archives();
+	
+-- ------------------------------------------------
+-- Trigger for ensuring booking/renting dates do not overlap with existing bookings/rentings
+-- ------------------------------------------------
+CREATE OR REPLACE FUNCTION check_booking_dates() RETURNS TRIGGER AS $BODY$
+DECLARE
+    overlapping_bookings INTEGER;
+BEGIN
+    SELECT COUNT(*)
+    INTO overlapping_bookings
+    FROM booking_renting
+    WHERE room_id = NEW.room_id AND hotel_id = NEW.hotel_id AND chain_id = NEW.chain_id
+    AND (NEW.start_date, NEW.end_date) OVERLAPS (start_date, end_date);
+    
+    IF overlapping_bookings > 0 THEN
+        RAISE EXCEPTION 'Booking/renting dates conflict with existing booking. Cannot have overlapping bookings/rentings.';
+    END IF;
+    
+    RETURN NEW;
+END;
+$BODY$ LANGUAGE plpgsql;
+
+CREATE TRIGGER check_booking_dates
+    BEFORE INSERT ON booking_renting
+    FOR EACH ROW
+    EXECUTE FUNCTION check_booking_dates();
+	
+-- ------------------------------------------------
+-- Trigger for ensuring a hotel has a manager
+-- ------------------------------------------------
+CREATE OR REPLACE FUNCTION check_hotel_manager()
+    RETURNS TRIGGER AS $BODY$
+BEGIN
+	IF NOT EXISTS (  -- if no other manager exists for this hotel, then we stop the deletion
+		SELECT * FROM manages
+		WHERE hotel_id = OLD.hotel_id AND chain_id = OLD.chain_id AND hotel_manager_ssn != OLD.hotel_manager_ssn
+	) THEN
+		RAISE EXCEPTION 'A hotel must have a manager. In this case, hotel % in chain % would no longer have a manager!', OLD.hotel_id, OLD.chain_id;
+	END IF;
+	RETURN OLD;
+END;
+$BODY$ LANGUAGE plpgsql;
+
+CREATE TRIGGER check_hotel_manager_trigger
+    BEFORE UPDATE OR DELETE
+    ON manages
+    FOR EACH ROW
+    EXECUTE FUNCTION check_hotel_manager();
 	
