@@ -3,16 +3,6 @@ const router = express.Router();
 
 const client = require("../db");
 
-router.get("/all", async (req, res) => {
-  const query = `SELECT room_id FROM room;`;
-  client.query(query, (err, result) => {
-    if (err) {
-      return console.error("error running query", err);
-    }
-    res.json(result.rows);
-  });
-});
-
 router.get("/date/:searchValue", async (req, res) => {
   const searchValue = req.params.searchValue.split(",");
   const query = `
@@ -106,6 +96,19 @@ router.get("/price/:searchValue", async (req, res) => {
     SELECT room_id
     FROM room
     WHERE price <= ${req.params.searchValue};`;
+  client.query(query, (err, result) => {
+    if (err) {
+      return console.error("error running query", err);
+    }
+    res.json(result.rows);
+  });
+});
+
+router.get("/results/:searchValue", async (req, res) => {
+  const room_ids = req.params.searchValue.split(",");
+  const query = `
+    SELECT * FROM room
+    WHERE room_id IN (${room_ids});`;
   client.query(query, (err, result) => {
     if (err) {
       return console.error("error running query", err);
