@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
+import ResultsTable from "./ResultsTable";
 import "react-datepicker/dist/react-datepicker.css";
 
 const RoomSearch = () => {
@@ -29,7 +30,7 @@ const RoomSearch = () => {
   const [intersection, setIntersection] = useState([]);
 
   useEffect(() => {
-    console.log(intersection);
+    // console.log(intersection);
   }, [intersection]);
 
   const searchByDate = async () => {
@@ -180,6 +181,7 @@ const RoomSearch = () => {
       {intersection.length > 0 && (
         <div>
           <h2>Results</h2>
+          <ResultsTable props={intersection} />
         </div>
       )}
     </div>
