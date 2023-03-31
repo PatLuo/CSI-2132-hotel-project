@@ -8,6 +8,7 @@ import HotelTable from "./HotelTable";
 import RoomTable from "./RoomTable";
 import RoomsPerAreaTable from "./RoomsPerAreaTable";
 import CapacityPerHotel from "./CapacityPerHotelTable";
+import RoomSearch from "./RoomSearch";
 import "./App.css";
 
 function App() {
@@ -16,6 +17,9 @@ function App() {
       <Navbar />
       <div className="App">
         <Switch>
+          <Route path="/" exact>
+            <RoomSearch />
+          </Route>
           <Route path="/views">
             <div className="row">
               <div className="col-md-6">
