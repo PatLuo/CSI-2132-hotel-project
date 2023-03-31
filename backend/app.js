@@ -8,6 +8,7 @@ const hotelRouter = require("./routes/hotel");
 const roomRouter = require("./routes/room");
 const viewsRouter = require("./routes/views");
 const filterRouter = require("./routes/filter");
+const bookingRouter = require("./routes/booking");
 
 const port = 3000;
 const app = express(); //initialize express
@@ -30,6 +31,8 @@ app.use("/hotel", hotelRouter);
 app.use("/room", roomRouter);
 app.use("/views", viewsRouter);
 app.use("/filter", filterRouter);
+app.use("/booking", bookingRouter);
+
 //starts the server
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
