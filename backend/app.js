@@ -6,6 +6,7 @@ const customerRouter = require("./routes/customer");
 const employeeRouter = require("./routes/employee");
 const hotelRouter = require("./routes/hotel");
 const roomRouter = require("./routes/room");
+const viewsRouter = require("./routes/views");
 
 const port = 3000;
 const app = express(); //initialize express
@@ -26,6 +27,7 @@ app.use("/customer", customerRouter);
 app.use("/employee", employeeRouter);
 app.use("/hotel", hotelRouter);
 app.use("/room", roomRouter);
+app.use("/views", viewsRouter);
 
 //starts the server
 app.listen(port, () => {
