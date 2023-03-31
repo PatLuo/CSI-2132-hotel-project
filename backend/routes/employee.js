@@ -46,7 +46,7 @@ router.post("/", async (req, res) => {
   });
 });
 
-router.delete("//:ssn", async (req, res) => {
+router.delete("/:ssn", async (req, res) => {
   const query = `
     DELETE FROM employee
     WHERE ssn = ${req.params.ssn}`;
