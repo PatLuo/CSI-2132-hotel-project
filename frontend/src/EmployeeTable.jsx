@@ -7,14 +7,14 @@ function EmployeeTable() {
   const [updatedRowData, setupdatedRowData] = useState();
   const [showNewRow, setShowNewRow] = useState(false);
   const [newRowData, setnewRowData] = useState({});
+
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = () => {
-    axios.get("http://localhost:3000/customer").then((res) => {
+    axios.get("http://localhost:3000/employee").then((res) => {
       setData(res.data);
-      setData((data) => data.map((row) => ({ ...row, date_of_registration: row["date_of_registration"].substring(0, 10) }))); //remove time from date format
     });
   };
 
@@ -37,7 +37,7 @@ function EmployeeTable() {
   };
 
   const handleSave = (originalPK) => {
-    axios.put(`http://localhost:3000/customer`, { newData: updatedRowData, originalPK: originalPK }).then((res) => {
+    axios.put(`http://localhost:3000/employee`, { newData: updatedRowData, originalPK: originalPK }).then((res) => {
       if (res.data == "success") {
         setEditableRow(null);
         setupdatedRowData(null);
@@ -57,7 +57,7 @@ function EmployeeTable() {
   };
 
   const handleAddNewRow = () => {
-    axios.post(`http://localhost:3000/customer`, newRowData).then((res) => {
+    axios.post(`http://localhost:3000/employee`, newRowData).then((res) => {
       if (res.data == "success") {
         setShowNewRow(false);
         setnewRowData({});
@@ -69,7 +69,7 @@ function EmployeeTable() {
   };
 
   const handleDelete = (ssn) => {
-    axios.delete(`http://localhost:3000/customer/${ssn}`).then((res) => {
+    axios.delete(`http://localhost:3000/employee/${ssn}`).then((res) => {
       if (res.data == "success") {
         fetchData();
       } else {
@@ -80,7 +80,12 @@ function EmployeeTable() {
 
   return (
     <>
-      <h1>Customer Table</h1>
+      <h1>Employee Table</h1>
+      {!showNewRow && (
+        <button className="btn btn-primary" onClick={() => setShowNewRow(!showNewRow)}>
+          Add New Employee
+        </button>
+      )}
       <table className="table">
         <thead>
           <tr>
@@ -92,7 +97,7 @@ function EmployeeTable() {
             <th>street_number</th>
             <th>street_name</th>
             <th>postal_code</th>
-            <th>date_of_registration</th>
+            <th>position</th>
             <th></th>
           </tr>
         </thead>
@@ -149,17 +154,14 @@ function EmployeeTable() {
                 />
               </th>
               <th>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={newRowData.date_of_registration}
-                  onChange={(event) => handleNewRowChange(event, "date_of_registration")}
-                />
+                <input type="text" className="form-control" value={newRowData.position} onChange={(event) => handleNewRowChange(event, "position")} />
               </th>
               <th>
                 <button className="btn btn-success" onClick={() => handleAddNewRow()}>
                   Add
                 </button>
+              </th>
+              <th>
                 <button className="btn btn-danger" onClick={() => setShowNewRow(false)}>
                   Cancel
                 </button>
@@ -167,7 +169,7 @@ function EmployeeTable() {
             </tr>
           )}
           {data.map((row, rowIndex) => {
-            const { ssn, first_name, last_name, city, province, street_number, street_name, postal_code, date_of_registration } = row;
+            const { ssn, first_name, last_name, city, province, street_number, street_name, postal_code, position } = row;
             return (
               <tr key={rowIndex}>
                 {editableRow != rowIndex ? (
@@ -180,7 +182,7 @@ function EmployeeTable() {
                     <th>{street_number}</th>
                     <th>{street_name}</th>
                     <th>{postal_code}</th>
-                    <th>{date_of_registration}</th>
+                    <th>{position}</th>
                     <th>
                       <button className="btn btn-primary" onClick={() => toggleEdit(rowIndex)}>
                         Edit
@@ -257,8 +259,8 @@ function EmployeeTable() {
                       <input
                         type="text"
                         className="form-control"
-                        value={updatedRowData.date_of_registration}
-                        onChange={(event) => handleInputChange(event, "date_of_registration")}
+                        value={updatedRowData.position}
+                        onChange={(event) => handleInputChange(event, "position")}
                       />
                     </th>
                     <th>
@@ -278,11 +280,6 @@ function EmployeeTable() {
           })}
         </tbody>
       </table>
-      {!showNewRow && (
-        <button className="btn btn-primary" onClick={() => setShowNewRow(!showNewRow)}>
-          Add New Customer
-        </button>
-      )}
     </>
   );
 }
