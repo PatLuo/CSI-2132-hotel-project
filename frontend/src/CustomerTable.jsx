@@ -81,6 +81,11 @@ function CustomerTable() {
   return (
     <>
       <h1>Customer Table</h1>
+      {!showNewRow && (
+        <button className="btn btn-primary" onClick={() => setShowNewRow(!showNewRow)}>
+          Add New Customer
+        </button>
+      )}
       <table className="table">
         <thead>
           <tr>
@@ -278,11 +283,6 @@ function CustomerTable() {
           })}
         </tbody>
       </table>
-      {!showNewRow && (
-        <button className="btn btn-primary" onClick={() => setShowNewRow(!showNewRow)}>
-          Add New Customer
-        </button>
-      )}
     </>
   );
 }
