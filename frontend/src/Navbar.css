@@ -1,0 +1,30 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.navbar h1 {
+  margin-left: 10px;
+  font-size: 1.5rem;
+}
+
+.links {
+  display: flex;
+}
+
+.links a {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 10px;
+}
+
+.links a:first-child {
+  margin-left: 0;
+}
