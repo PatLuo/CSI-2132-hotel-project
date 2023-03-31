@@ -57,6 +57,7 @@ function HotelTable() {
   };
 
   const handleAddNewRow = () => {
+    console.log(newRowData);
     axios.post(`http://localhost:3000/hotel`, newRowData).then((res) => {
       if (res.data == "success") {
         setShowNewRow(false);
@@ -68,8 +69,8 @@ function HotelTable() {
     });
   };
 
-  const handleDelete = (ssn) => {
-    axios.delete(`http://localhost:3000/hotel/${ssn}`).then((res) => {
+  const handleDelete = (originalPK) => {
+    axios.delete(`http://localhost:3000/hotel/${originalPK}`).then((res) => {
       if (res.data == "success") {
         fetchData();
       } else {
@@ -81,6 +82,11 @@ function HotelTable() {
   return (
     <>
       <h1>hotel Table</h1>
+      {!showNewRow && (
+        <button className="btn btn-primary" onClick={() => setShowNewRow(!showNewRow)}>
+          Add New hotel
+        </button>
+      )}
       <table className="table">
         <thead>
           <tr>
@@ -158,6 +164,8 @@ function HotelTable() {
                 <button className="btn btn-success" onClick={() => handleAddNewRow()}>
                   Add
                 </button>
+              </th>
+              <th>
                 <button className="btn btn-danger" onClick={() => setShowNewRow(false)}>
                   Cancel
                 </button>
@@ -186,7 +194,7 @@ function HotelTable() {
                       </button>
                     </th>
                     <th>
-                      <button className="btn btn-danger" onClick={() => handleDelete([chain_id, hotel_id])}>
+                      <button className="btn btn-danger" onClick={() => handleDelete(chain_id + " " + hotel_id)}>
                         Delete
                       </button>
                     </th>
@@ -290,11 +298,6 @@ function HotelTable() {
           })}
         </tbody>
       </table>
-      {!showNewRow && (
-        <button className="btn btn-primary" onClick={() => setShowNewRow(!showNewRow)}>
-          Add New hotel
-        </button>
-      )}
     </>
   );
 }

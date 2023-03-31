@@ -1,12 +1,12 @@
 const express = require("express"); //import express
+const client = require("../db"); //import postgres client
+
 const router = express.Router();
 
-const client = require("../db");
-
-const getCustomers = "SELECT * FROM customer";
+const getHotel = "SELECT * FROM hotel";
 
 router.get("/", async (req, res) => {
-  client.query(getCustomers, (err, result) => {
+  client.query(getHotel, (err, result) => {
     if (err) {
       return console.error("error running query", err);
     }
@@ -16,11 +16,11 @@ router.get("/", async (req, res) => {
 
 router.put("/", async (req, res) => {
   const { newData, originalPK } = req.body;
-  const { ssn, first_name, last_name, city, province, street_number, street_name, postal_code, date_of_registration } = newData;
+  const { chain_id, hotel_id, city, province, street_number, street_name, postal_code, email, number_of_rooms, categorization } = newData;
   const query = `
-    UPDATE customer
-    SET ssn = '${ssn}', first_name = '${first_name}', last_name = '${last_name}', city = '${city}', province = '${province}', street_number = ${street_number}, street_name = '${street_name}', postal_code = '${postal_code}', date_of_registration = '${date_of_registration}'
-    WHERE ssn = ${originalPK}`;
+    UPDATE hotel
+    SET chain_id = ${chain_id}, hotel_id = ${hotel_id}, city = '${city}', province = '${province}', street_number = ${street_number}, street_name = '${street_name}', postal_code = '${postal_code}', email = '${email}', number_of_rooms = ${number_of_rooms}, categorization = ${categorization}
+    WHERE chain_id = ${originalPK[0]} AND hotel_id = ${originalPK[1]}`;
   client.query(query, (err, result) => {
     if (err) {
       console.log(err);
@@ -32,10 +32,10 @@ router.put("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { ssn, first_name, last_name, city, province, street_number, street_name, postal_code, date_of_registration } = req.body;
+  const { chain_id, hotel_id, city, province, street_number, street_name, postal_code, email, number_of_rooms, categorization } = req.body;
   const query = `
-    INSERT INTO customer (ssn, first_name, last_name, city, province, street_number, street_name, postal_code, date_of_registration)
-    VALUES ('${ssn}', '${first_name}', '${last_name}', '${city}', '${province}', ${street_number}, '${street_name}', '${postal_code}', '${date_of_registration}')`;
+    INSERT INTO hotel (chain_id, hotel_id, city, province, street_number, street_name, postal_code, email, number_of_rooms, categorization)
+    VALUES (${chain_id}, ${hotel_id}, '${city}', '${province}', ${street_number}, '${street_name}', '${postal_code}', '${email}', ${number_of_rooms}, ${categorization})`;
   client.query(query, (err, result) => {
     if (err) {
       console.log(err);
@@ -46,10 +46,11 @@ router.post("/", async (req, res) => {
   });
 });
 
-router.delete("//:ssn", async (req, res) => {
+router.delete("/:originalPK", async (req, res) => {
+  const originalPK = req.params.originalPK.split(" ");
   const query = `
-    DELETE FROM customer
-    WHERE ssn = ${req.params.ssn}`;
+        DELETE FROM hotel
+        WHERE chain_id = ${originalPK[0]} AND hotel_id = ${originalPK[1]}`;
   client.query(query, (err, result) => {
     if (err) {
       console.log(err);
