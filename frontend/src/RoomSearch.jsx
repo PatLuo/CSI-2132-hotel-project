@@ -30,7 +30,7 @@ const RoomSearch = () => {
   const [intersection, setIntersection] = useState([]);
 
   useEffect(() => {
-    // console.log(intersection);
+    console.log(intersection);
   }, [intersection]);
 
   const searchByDate = async () => {
@@ -177,7 +177,9 @@ const RoomSearch = () => {
       <label htmlFor="roomPrice">Room price:</label>
       <input className="form-control" type="number" value={roomPrice} onChange={(event) => setRoomPrice(event.target.value)} />
 
-      <button onClick={handleSearch}>Search</button>
+      <button onClick={handleSearch} className="btn btn-primary">
+        Search
+      </button>
       {intersection.length > 0 && (
         <div>
           <h2>Results</h2>
