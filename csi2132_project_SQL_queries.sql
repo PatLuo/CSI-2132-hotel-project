@@ -158,3 +158,26 @@ CREATE VIEW hotel_room_capacity AS
 SELECT hotel_id, room_id, capacity
 FROM room
 ORDER BY hotel_id;
+
+
+-- ----------------------------
+-- Queries For Booking_Renting Table
+-- ----------------------------
+SELECT * FROM booking_renting ORDER BY cust_ssn, room_id;
+
+--values to be replaced by user input in the UI
+UPDATE booking_renting
+SET payment_type = '${payment_type}', reservation_status = '${reservation_status}'
+WHERE cust_ssn = ${cust_ssn} AND room_id = ${room_id} AND hotel_id = ${hotel_id} AND chain_id = ${chain_id};
+
+--values to be replaced by user input in the UI
+INSERT INTO booking_renting (cust_ssn, room_id, hotel_id, chain_id, payment_type, payment_amount, start_date, end_date, reservation_status)
+  VALUES ('${cust_ssn}', ${room_id}, ${hotel_id}, ${chain_id}, '${payment_type}', ${payment_amount}, '${start_date}', '${end_date}', 'booking');
+  
+--values to be replaced by user input in the UI
+INSERT INTO booking_renting (cust_ssn, room_id, hotel_id, chain_id, payment_amount, start_date, end_date, reservation_status)
+  VALUES ('${cust_ssn}', ${room_id}, ${hotel_id}, ${chain_id}, ${payment_amount}, '${start_date}', '${end_date}', 'booking');
+
+--values to be replaced by user input in the UI
+INSERT INTO booking_renting (cust_ssn, room_id, hotel_id, chain_id, payment_type, payment_amount, start_date, end_date, reservation_status)
+  VALUES ('${cust_ssn}', ${room_id}, ${hotel_id}, ${chain_id}, '${payment_type}', ${payment_amount}, '${start_date}', '${end_date}', 'renting');
