@@ -202,6 +202,15 @@ CREATE TABLE archives(
 );
 
 
+-- ******* INDEXES *******
+
+CREATE INDEX booking_dates_index ON booking_renting(start_date, end_date);
+
+CREATE INDEX room_index ON room(hotel_id, capacity, price);
+
+CREATE INDEX hotel_index ON hotel(chain_id, city, categorization);
+
+
 -- ******* TRIGGERS *******
 
 -- ------------------------------------------------
