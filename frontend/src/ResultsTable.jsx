@@ -113,7 +113,7 @@ function ResultsTable({ props }) {
         <p>hotel_id:{bookingData.hotel_id}</p>
         <p>chain_id:{bookingData.chain_id}</p>
         <p>payment_amount:{bookingData.price}</p>
-        <label htmlFor="capacity">payment_type:</label>
+        <label htmlFor="capacity">payment_type: (Optional)</label>
         <select className="form-control" value={paymentType} onChange={(event) => setPaymentType(event.target.value)}>
           <option value="">Select</option>
           <option value="cash">cash</option>
