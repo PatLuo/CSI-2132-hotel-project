@@ -9,6 +9,22 @@ INSERT INTO hotel_chain (id, number_of_hotels) VALUES (3, 6);
 INSERT INTO hotel_chain (id, number_of_hotels) VALUES (4, 32);
 INSERT INTO hotel_chain (id, number_of_hotels) VALUES (5, 18);
 
+-- Records of hotel chain central offices
+INSERT INTO central_office (chain_id, city, province, street_number, street_name, postal_code) VALUES (1, 'Ottawa', 'ON', 1, 'Laurier', 'ABC123');
+INSERT INTO central_office (chain_id, city, province, street_number, street_name, postal_code) VALUES (2, 'Toronto', 'ON', 99, 'Main', 'DEF456');
+INSERT INTO central_office (chain_id, city, province, street_number, street_name, postal_code) VALUES (3, 'Vancouver', 'BC', 50, 'Georgia', 'A1B2C3');
+INSERT INTO central_office (chain_id, city, province, street_number, street_name, postal_code) VALUES (4, 'New York', 'New York', 107, 'Upper Manhattan', 'Z2X5Y3');
+INSERT INTO central_office (chain_id, city, province, street_number, street_name, postal_code) VALUES (5, 'Los Angeles', 'California', 23, 'Hollywood Boulevard', 'HOL123');
+
+-- Examples of hotel chain email insertions
+INSERT INTO chain_email (chain_id, email) VALUES (2, 'Toronto@hotelchain.com');
+INSERT INTO chain_email (chain_id, email) VALUES (3, 'Vancouver@hotelchain.com');
+
+-- Examples of hotel chain phone number insertions
+INSERT INTO chain_phone (chain_id, phone_number) VALUES (1, 6131111111);
+INSERT INTO chain_phone (chain_id, phone_number) VALUES (2, 4162222222);
+
+
 -- ----------------------------
 -- Records of hotels
 -- --------------------------
@@ -96,6 +112,11 @@ INSERT INTO hotel (chain_id, city, province, street_number, street_name, postal_
 VALUES (5, 'Vancouver', 'BC', 789, 'Robson Street', 'V6B5J3', 'hotel41@example.com', 100, 5);
 INSERT INTO hotel (chain_id, city, province, street_number, street_name, postal_code, email, number_of_rooms, categorization)
 VALUES (5, 'Vancouver', 'BC', 890, 'Granville Street', 'V6Z1L2', 'hotel42@example.com', 80, 2);
+
+-- Examples of Insertions for hotel_phone
+INSERT INTO hotel_phone (chain_id, hotel_id, phone_number) VALUES (1, 2, 14165678901);
+INSERT INTO hotel_phone (chain_id, hotel_id, phone_number) VALUES (1, 8, 15145432109);
+
 
 -- ----------------------------
 -- Records of rooms
@@ -333,5 +354,50 @@ VALUES
     (40, 5, 'open', 'mountain', 435.0, 5, 0);
 
 
+-- Examples of Insertions for Room related relations (Amenities, Damage/Problems)
+INSERT INTO room_amenity(room_id, hotel_id, chain_id, amenity_name) VALUES (1,1,3, 'Fridge');
+INSERT INTO room_amenity(room_id, hotel_id, chain_id, amenity_name) VALUES (1,1,3, 'Coffee maker');
+INSERT INTO room_amenity(room_id, hotel_id, chain_id, amenity_name) VALUES (1,1,3, 'Microwave');
+
+INSERT INTO damage_or_problem (room_id, hotel_id, chain_id, description) VALUES (106, 2, 1, 'Broken lights');
+INSERT INTO damage_or_problem (room_id, hotel_id, chain_id, description) VALUES (153, 11, 2, 'Insufficient shampoo');
 
 
+-- ----------------------------
+-- Example Records of Employees
+-- ----------------------------
+INSERT INTO employee(ssn, first_name, last_name, city, province, street_number, street_name, postal_code, position)
+VALUES (334567890, 'John', 'Doe', 'Ottawa', 'ON', 123, 'Main St', '1001', 'Manager');
+
+INSERT INTO employee(ssn, first_name, last_name, city, province, street_number, street_name, postal_code, position)
+VALUES (234567891, 'Bob', 'Smith', 'Toronto', 'ON', 551, 'Yonge', '576', 'Accountant');
+
+INSERT INTO employee(ssn, first_name, last_name, city, province, street_number, street_name, postal_code, position)
+VALUES (567891234, 'Doe', 'Smith', 'Regina', 'Saskatchewan', 53, 'Avenue', 'ABC153', 'Supervisor');
+
+-- Insertions for Employee related relations
+INSERT INTO works_for(employee_ssn, hotel_id, chain_id) VALUES (334567890, 2, 1);
+INSERT INTO manages (hotel_manager_ssn, hotel_id, chain_id) VALUES (334567890, 2, 1);
+INSERT INTO supervision(supervisor_ssn, supervisee_ssn) VALUES (567891234, 234567891);
+
+
+-- ----------------------------
+-- Example Records of Customers
+-- ----------------------------
+INSERT INTO customer (ssn, first_name, last_name, city, province, street_number, street_name, postal_code, date_of_registration)
+VALUES (123456777, 'Jone', 'Johnson', 'Toronto', 'ON', 123, 'Yonge', 'K12A34', '2022-01-03');
+
+INSERT INTO customer (ssn, first_name, last_name, city, province, street_number, street_name, postal_code, date_of_registration)
+VALUES (123456777, 'Jone', 'Johnson', 'Toronto', 'ON', 123, 'Yonge', 'K12A34', '2022-01-03');
+
+
+-- ----------------------------
+-- Example Records of Booking/Renting
+-- ----------------------------
+INSERT INTO booking_renting(cust_ssn, room_id, hotel_id, chain_id, payment_type, payment_amount, start_date, end_date, reservation_status)
+VALUES (323456751, 155, 12, 2, 'credit', 150, '2023-04-01', '2023-04-02', 'renting');
+
+INSERT INTO booking_renting (cust_ssn, room_id, hotel_id, chain_id, start_date, end_date, reservation_status) 
+VALUES (123457, 8, 1, 1,'2023-02-01', '2023-02-05', 'booking');
+
+--Nothing for the table Archives as any insertions in the table booking_renting will populate the Archives table as well (via trigger). 
