@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import DatePicker from "react-datepicker";
-import ResultsTable from "./ResultsTable";
+import ResultsTableRenting from "./ResultsTableRenting";
 import "react-datepicker/dist/react-datepicker.css";
 
-const RoomSearch = () => {
+const RoomSearchRenting = () => {
   const url = "http://localhost:3000/filter";
 
   //search criteria
@@ -115,8 +115,9 @@ const RoomSearch = () => {
 
   return (
     <div>
-      <h1>Room Search</h1>
-      <h2>To Book</h2>
+      <h1>Room Search </h1>
+      <h2>To Rent</h2>
+
       <label htmlFor="startDate">Start date:</label>
       <DatePicker
         selected={startDate}
@@ -183,11 +184,11 @@ const RoomSearch = () => {
       {intersection.length > 0 && (
         <div>
           <h2>Results</h2>
-          <ResultsTable props={intersection} />
+          <ResultsTableRenting props={intersection} />
         </div>
       )}
     </div>
   );
 };
 
-export default RoomSearch;
+export default RoomSearchRenting;

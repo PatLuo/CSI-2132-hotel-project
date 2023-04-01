@@ -11,6 +11,7 @@ import CapacityPerHotel from "./CapacityPerHotelTable";
 import RoomSearch from "./RoomSearch";
 import BookingsTable from "./BookingsTable";
 import "./App.css";
+import RoomSearchRenting from "./RoomSearchRenting";
 
 function App() {
   return (
@@ -33,6 +34,9 @@ function App() {
           </Route>
           <Route path="/employees">
             <BookingsTable />
+          </Route>
+          <Route path="/renting">
+            <RoomSearchRenting />
           </Route>
         </Switch>
       </div>
