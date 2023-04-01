@@ -120,9 +120,17 @@ router.get("/results/:searchValue", async (req, res) => {
 router.post("/booking", async (req, res) => {
   const { cust_ssn, room_id, hotel_id, chain_id, payment_type, payment_amount, start_date, end_date } = req.body;
   console.log(cust_ssn, room_id, hotel_id, chain_id, payment_type, payment_amount, start_date, end_date);
-  const query = `
-    INSERT INTO booking_renting (cust_ssn, room_id, hotel_id, chain_id, payment_type, payment_amount, start_date, end_date, reservation_status)
-    VALUES ('${cust_ssn}', ${room_id}, ${hotel_id}, ${chain_id}, '${payment_type}', ${payment_amount}, '${start_date}', '${end_date}', 'booking');`;
+  let query = `
+  INSERT INTO booking_renting (cust_ssn, room_id, hotel_id, chain_id, payment_type, payment_amount, start_date, end_date, reservation_status)
+  VALUES ('${cust_ssn}', ${room_id}, ${hotel_id}, ${chain_id}, '${payment_type}', ${payment_amount}, '${start_date}', '${end_date}', 'booking');`;
+
+  // change query if payment_type is null
+  if (payment_type == "") {
+    query = `
+    INSERT INTO booking_renting (cust_ssn, room_id, hotel_id, chain_id, payment_amount, start_date, end_date, reservation_status)
+    VALUES ('${cust_ssn}', ${room_id}, ${hotel_id}, ${chain_id}, ${payment_amount}, '${start_date}', '${end_date}', 'booking');`;
+  }
+
   client.query(query, (err, result) => {
     if (err) {
       console.log(err);
